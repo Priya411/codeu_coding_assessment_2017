@@ -14,41 +14,87 @@
 
 package com.google.codeu.codingchallenge;
 
-import java.util.Collection;
+import java.util.*;
 
 final class MyJSON implements JSON {
 
+  Map<String, Object> list = new HashMap<String, Object>();
+
   @Override
-  public JSON getObject(String name) {
-    // TODO: implement this
+  public JSON getObject(String name)
+  // Returns the objects in it as long as it's not a String
+  {
+    if (list.containsKey(name))
+    {
+      if (!(list.get(name) instanceof String))
+      {
+        return (JSON)(list.get(name));
+      }
+    }
     return null;
   }
 
   @Override
-  public JSON setObject(String name, JSON value) {
-    // TODO: implement this
+  public JSON setObject(String name, JSON value)
+  // Adds new objects
+  {
+    if (list.containsKey(name))
+    {
+      list.remove(name);
+    }
+    list.put(name, value);
     return this;
   }
 
   @Override
-  public String getString(String name) {
-    // TODO: implement this
+  public String getString(String name)
+  // Gets the value if it's a string
+  {
+    if (list.containsKey(name))
+    {
+      if (list.get(name) instanceof String)
+      {
+        return (String)(list.get(name));
+      }
+    }
     return null;
   }
 
   @Override
-  public JSON setString(String name, String value) {
-    // TODO: implement this
+  public JSON setString(String name, String value)
+  // Adds new string type object
+  {
+    if (list.containsKey(name))
+    {
+      list.remove(name);
+    }
+    list.put(name, value);
     return this;
   }
 
   @Override
-  public void getObjects(Collection<String> names) {
-    // TODO: implement this
+  public void getObjects(Collection<String> names)
+  // Returns list of keys if object
+  {
+    for (String key : list.keySet())
+    {
+      if (getObject(key) !=null)
+      {
+        names.add(key);
+      }
+    }
   }
 
   @Override
-  public void getStrings(Collection<String> names) {
-    // TODO: implement this
+  public void getStrings(Collection<String> names)
+  // Returns list of keys if String
+  {
+    for (String key : list.keySet())
+    {
+      if (getString(key) !=null)
+      {
+        names.add(key);
+      }
+    }
   }
 }
